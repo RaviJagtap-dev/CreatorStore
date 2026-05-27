@@ -13,16 +13,17 @@ import java.util.List;
 @AllArgsConstructor
 public class ProductService {
 
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    public Product createProduct(Product  product) {
-        Product existingProduct = productRepository.findById(product.getId()).isPresent() ? productRepository.findById(product.getId()).get() : product;
+    public Product createProduct(Product product) {
         return productRepository.save(product);
     }
 
-    public Product updateProduct(Long id,Product  product) {
+    public Product updateProduct(Long id, Product product) {
+
         Product existingProduct = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("product not found"+id));
+                .orElseThrow(() ->
+                        new RuntimeException("Product not found " + id));
 
         existingProduct.setName(product.getName());
         existingProduct.setDescription(product.getDescription());
@@ -32,15 +33,18 @@ public class ProductService {
 
         return productRepository.save(existingProduct);
     }
+
     public List<Product> getProducts() {
         return productRepository.findAll();
     }
 
     public Product getProductByID(Long id) {
-        return productRepository.findById(id).orElseThrow(() -> new RuntimeException("product not found"+id));
+        return productRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Product not found " + id));
     }
 
-    public void deleteProductByID(Long id ) {
+    public void deleteProductByID(Long id) {
         productRepository.deleteById(id);
     }
 }

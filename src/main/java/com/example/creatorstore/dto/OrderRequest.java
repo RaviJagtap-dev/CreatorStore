@@ -3,6 +3,7 @@ package com.example.creatorstore.dto;
 import com.example.creatorstore.entities.Product;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -24,7 +25,7 @@ public class OrderRequest {
     private String customerEmail;
 
     @Valid
-    @NotNull(message = "Order Items contains at least one item")
-    private List<OrderItemRequest> orderItems;
+    @NotEmpty(message = "Order Items contains at least one item")
+    private List<OrderItemRequest> items;
 
 }

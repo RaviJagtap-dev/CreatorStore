@@ -1,5 +1,6 @@
 package com.example.creatorstore.services;
 
+import com.example.creatorstore.dto.LoginRequest;
 import com.example.creatorstore.dto.RegisterRequest;
 import com.example.creatorstore.entities.User;
 import com.example.creatorstore.repositories.UserRepository;
@@ -30,5 +31,16 @@ public class AuthService {
         userRepository.save(user);
 
         return "User Registered Successfully";
+    }
+    public String login(LoginRequest request) {
+
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (encoder.matches(request.getPassword(), user.getPassword())) {
+            return "Login Successful";
+        }
+
+        throw new RuntimeException("Invalid Credentials");
     }
 }
